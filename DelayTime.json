@@ -3,7 +3,8 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "time": {
-            "type": "int"
+            "type": "int",
+            "defaultValue": 50
         }
     },
     "resources": [],
