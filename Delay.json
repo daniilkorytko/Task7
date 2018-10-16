@@ -1,0 +1,32 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "time": {
+            "type": "int",
+            "defaultValue": 700
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat('linkedTemplateDelayTime', copyIndex())]",
+            
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/daniilkorytko/Task7/master/DelayTime.json",
+                    "contentVersion": "1.0.0.0"
+                }
+            },
+            "copy": {
+                "name": "secretsCopy",
+                "count": "[parameters('time')]"
+              }
+            }
+        
+    ],
+    "outputs": {
+    }
+}
