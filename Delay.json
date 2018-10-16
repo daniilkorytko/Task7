@@ -24,7 +24,24 @@
                 "name": "secretsCopy",
                 "count": "[parameters('time')]"
               }
-            }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "[concat('linkedTemplateDelayTime1', copyIndex())]",
+            
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/daniilkorytko/Task7/master/DelayTime.json",
+                    "contentVersion": "1.0.0.0"
+                }
+            },
+            "copy": {
+                "name": "secretsCopy",
+                "count": "[parameters('time')]"
+              }
+        }
         
     ],
     "outputs": {
