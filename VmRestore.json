@@ -54,7 +54,10 @@
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2018-04-01",
             "location": "[parameters('location')]",
-
+            "dependsOn": [
+                "VmRestored_Datadisk",
+                "VmRestored_Osdisk"  
+            ],
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "[parameters('virtualMachineSize')]"
