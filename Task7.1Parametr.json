@@ -1,0 +1,141 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "KeyVautsName": {
+            "value": "MyKeyVauntsTask7"
+        },
+        "accessPolicies": {
+            "value": [
+                {
+                    "objectId": "a10ce55d-dfb5-4433-a389-152b8614de8d",
+                    "tenantId": "b41b72d0-4e9f-4c26-8a69-f949f367c91d",
+                    "permissions": {
+                        "keys": [
+                            "All"
+                        ],
+                        "secrets": [
+                            "All"
+                        ],
+                        "certificates": [
+                            "All"
+                        ]
+                    }
+                },
+                {
+                    "objectId": "f3d19bd0-a5ee-4ff5-bd53-079f5878beaa",
+                    "tenantId": "b41b72d0-4e9f-4c26-8a69-f949f367c91d",
+                    "permissions": {
+                        "keys": [
+                            "All"
+                        ],
+                        "secrets": [
+                            "All"
+                        ],
+                        "certificates": [
+                            "All"
+                        ]
+                    },
+                    "applicationId": null
+                }
+            ]
+        },
+        "tenant": {
+            "value": "b41b72d0-4e9f-4c26-8a69-f949f367c91d"
+        },
+        "networkAcls": {
+            "value": {
+                "defaultAction": "Allow",
+                "bypass": "AzureServices",
+                "virtualNetworkRules": [],
+                "ipRules": []
+            }
+        },
+        "secretsObject": {
+            "value": {
+                "secrets": [						
+                    {
+                        "secretName": "Secret1Task7",
+                        "secretValue": ""
+                    }
+                ]
+            }
+        },
+
+        "VnetName": {
+            "value": "VNetTask3"
+        },
+        "networkSecurityGroupName": {
+            "value": "MyVmName-nsg"
+        },
+        "networkSecurityGroupRules": {
+            "value": [
+                {
+                
+                    "name": "default-allow-rdp",
+                    "properties": {
+                        "priority": 1000,
+                        "protocol": "TCP",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceApplicationSecurityGroups": [],
+                        "destinationApplicationSecurityGroups": [],
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "3389"
+                    }
+                }
+            ]
+        },
+        "publicIpAddressName": {
+            "value": "MyVmName-ip"
+        },
+        "networkInterfaceName": {
+            "value": "myvmname324"
+        },
+        "virtualMachineName": {
+            "value": "MyVmTask4"
+        },
+        "dataDisks": {
+            "value": [
+                {
+                    "lun": 0,
+                    "createOption": "attach",
+                    "caching": "None",
+                    "writeAcceleratorEnabled": false,
+                    "id": null,
+                    "name": "MyVmName_DataDisk_0",
+                    "storageAccountType": null
+                }
+            ]
+        },
+        "dataDiskResources": {
+            "value": [
+                {
+                    "name": "MyVmName_DataDisk_0",
+                    "diskSizeGB": 16,
+                    "sku": "StandardSSD_LRS",
+                    "creationData": {
+                        "createOption": "empty"
+                    }
+                }
+            ]
+        },
+        "virtualMachineSize": {
+            "value": "Standard_D2s_v3"
+        },
+        "adminUsername": {
+            "value": "Administrator1"
+        },
+        "diagnosticsStorageAccountName": {
+            "value": "daniil1storageaccount"
+        },
+        "availabilitySetName": {
+            "value": "AvailabilitySet1"
+        },
+        "DSCfunctions": {
+            "value": "dscTask7.ps1\\DataDisk"
+        }
+    }
+}
