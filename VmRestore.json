@@ -65,7 +65,10 @@
                             "caching": "ReadWrite",
                             "osType": "Windows",
                             "createOption": "Attach",
-                            "id": "[resourceId('Microsoft.Compute/disks', 'VmRestored_Osdisk')]"
+                            "managedDisk": {
+                                "id": "[resourceId('Microsoft.Compute/disks', 'VmRestored_Osdisk')]"
+                            }
+                            
                           },
                           "dataDisks": [
                             {
@@ -73,7 +76,9 @@
                               "diskSizeGB": 16,
                               "lun": 0,
                               "createOption": "Attach",
-                              "id": "[resourceId('Microsoft.Compute/disks', 'VmRestored_Datadisk')]"
+                              "managedDisk": {
+                                "id": "[resourceId('Microsoft.Compute/disks', 'VmRestored_Datadisk')]"
+                                } 
                             }
                             
                         ]
