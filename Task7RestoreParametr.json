@@ -1,0 +1,45 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+
+        "VnetName": {
+            "value": "VNetTask3"
+        },
+        "networkSecurityGroupName": {
+            "value": "MyVmName-nsg"
+        },
+        "networkSecurityGroupRules": {
+            "value": [
+                {
+                
+                    "name": "default-allow-rdp",
+                    "properties": {
+                        "priority": 1000,
+                        "protocol": "TCP",
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "sourceApplicationSecurityGroups": [],
+                        "destinationApplicationSecurityGroups": [],
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*",
+                        "destinationPortRange": "3389"
+                    }
+                }
+            ]
+        },
+        "publicIpAddressName": {
+            "value": "MyVmTask7-ip"
+        },
+        "networkInterfaceName": {
+            "value": "myvmtask7"
+        },
+        "virtualMachineName": {
+            "value": "MyVmTask7restore"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_D2s_v3"
+        }
+    }
+}

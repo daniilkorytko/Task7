@@ -1,0 +1,174 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "VnetName": {
+            "type": "string"
+        },
+        "addressPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/16"
+        },
+        "subnetFrontEnd": {
+            "type": "string",
+            "defaultValue": "FrontEnd"
+        },
+        "subnetFrontEndAddressPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.1.0/24"
+        },
+        "networkSecurityGroupName": {
+            "type": "string"
+        },
+        "networkSecurityGroupRules": {
+            "type": "array"
+        },
+        "publicIpAddressName": {
+            "type": "string"
+        },
+        "publicIpAddressType": {
+            "type": "string",
+            "defaultValue": "Dynamic"
+        },
+        "publicIpAddressSku": {
+            "type": "string",
+            "defaultValue": "Basic"
+        },
+        "networkInterfaceName": {
+            "type": "string"
+        },
+        "virtualMachineName": {
+            "type": "string"
+        },
+        "virtualMachineSize": {
+            "type": "string",
+            "defaultValue": "Standard_D2s_v3"
+        },
+        "idosDisk": {
+            "type": "string"
+        },
+        "iddataDisks": {
+            "type": "string"
+        }
+        
+    },
+    "variables": {
+        "location": "[resourceGroup().location]"
+    },
+    "resources": [
+        
+         {
+             "apiVersion": "2017-05-10",
+             "name": "linkedTemplateVnet2",
+             "type": "Microsoft.Resources/deployments",
+
+             "properties": {
+               "mode": "Incremental",
+               "templateLink": {
+                  "uri":"https://raw.githubusercontent.com/daniilkorytko/Task3.1/master/Vnet2.json",
+                  "contentVersion":"1.0.0.0"
+               },
+               "parameters": {
+                  "VnetName":{"value": "[parameters('VnetName')]"},
+                  "location":{"value": "[variables('location')]"},
+                  "addressPrefix":{"value": "[parameters('addressPrefix')]"},
+                  "subnetFrontEnd":{"value": "[parameters('subnetFrontEnd')]"},
+                  "subnetFrontEndAddressPrefix":{"value": "[parameters('subnetFrontEndAddressPrefix')]"}
+                }
+             }
+          },
+          {
+             "apiVersion": "2017-05-10",
+             "name": "linkedTemplateNSG",
+             "type": "Microsoft.Resources/deployments",
+             "properties": {
+               "mode": "Incremental",
+               "templateLink": {
+                  "uri":"https://raw.githubusercontent.com/daniilkorytko/Task3.1/master/NSG.json",
+                  "contentVersion":"1.0.0.0"
+               },
+               "parameters": {
+                 "networkSecurityGroupName":{"value": "[parameters('networkSecurityGroupName')]"},
+                  "location":{"value": "[variables('location')]"},
+                  "networkSecurityGroupRules":{"value": "[parameters('networkSecurityGroupRules')]"}
+                }
+             }
+          },
+          {
+             "apiVersion": "2017-05-10",
+             "name": "linkedTemplatePubIp",
+             "type": "Microsoft.Resources/deployments",
+
+             "properties": {
+               "mode": "Incremental",
+               "templateLink": {
+                  "uri":"https://raw.githubusercontent.com/daniilkorytko/Task3.1/master/PublicIpAdressName.json",
+                  "contentVersion":"1.0.0.0"
+               },
+               "parameters": {
+                 "publicIpAddressName":{"value": "[parameters('publicIpAddressName')]"},
+                  "location":{"value": "[variables('location')]"},
+                  "publicIpAddressType":{"value": "[parameters('publicIpAddressType')]"},
+                  "publicIpAddressSku":{"value": "[parameters('publicIpAddressSku')]"}
+                }
+             }
+          },
+         {
+             "apiVersion": "2017-05-10",
+             "name": "linkedTemplateNetInterface",
+             "type": "Microsoft.Resources/deployments",
+             "dependsOn": [
+                 "linkedTemplateNSG",
+                 "linkedTemplateVnet2",
+                 "linkedTemplatePubIp"
+ 
+             ],
+             "properties": {
+               "mode": "Incremental",
+               "templateLink": {
+                  "uri":"https://raw.githubusercontent.com/daniilkorytko/Task3.1/master/NetWorkInerface.json",
+                  "contentVersion":"1.0.0.0"
+               },
+               "parameters": {
+                 "location":{"value": "[variables('location')]"},
+                 "subnetFrontEnd":{"value": "[parameters('subnetFrontEnd')]"},
+                 "networkInterfaceName":{"value": "[parameters('networkInterfaceName')]"},
+                 "publicIpAddress": {"value": "[reference('linkedTemplatePubIp').outputs.PubIp.value]"},
+                 "nsgId": {"value": "[reference('linkedTemplateNSG').outputs.nsgId.value]"},
+                 "vnetId": {"value": "[reference('linkedTemplateVnet2').outputs.vnetId.value]"}
+ 
+                }
+             }
+          },
+          
+          {
+           
+             "apiVersion": "2017-05-10",
+             "name": "linkedTemplateDeployVM",
+             "type": "Microsoft.Resources/deployments",
+ 
+             "dependsOn": [
+                 "linkedTemplateNetInterface"
+                
+             ],
+             
+             "properties": {
+               "mode": "Incremental",
+               "templateLink": {
+                  "uri":"https://raw.githubusercontent.com/daniilkorytko/Task7/master/VmRestore.json",
+                  "contentVersion":"1.0.0.0"
+               },
+ 
+               "parameters": {
+ 
+                 "virtualMachineName":{"value": "[parameters('virtualMachineName')]"},
+                 "location":{"value": "[variables('location')]"},
+                 "networkInterfaceName":{"value": "[parameters('networkInterfaceName')]"},
+                 "virtualMachineSize":{"value": "[parameters('virtualMachineSize')]"},
+                 "idosDisk":{"value": "[parameters('idosDisk')]"},
+                 "iddataDisks":{"value": "[parameters('iddataDisks')]"}
+                }
+             }
+          }
+    ]
+}
