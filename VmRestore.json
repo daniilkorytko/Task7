@@ -24,6 +24,32 @@
     },
     "resources": [
         {
+            "type": "Microsoft.Compute/disks",
+            "apiVersion": "2017-03-30",
+            "name": "VmRestored_Osdisk",
+            "location": "[parameters('location')]",
+            "properties": {
+                "creationData": {
+                    "createOption": "Import",
+                    "sourceUri": "[parameters('idosDisk')]"
+                },
+                "osType": "Windows"
+            }
+        },
+        {
+            "type": "Microsoft.Compute/disks",
+            "apiVersion": "2017-03-30",
+            "name": "VmRestored_Datadisk",
+            "location": "[parameters('location')]",
+            "properties": {
+                "creationData": {
+                    "createOption": "Import",
+                    "sourceUri": "[parameters('iddataDisks')]"
+                }
+            }
+},
+        {
+            
             "name": "[parameters('virtualMachineName')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2018-04-01",
@@ -39,9 +65,7 @@
                             "caching": "ReadWrite",
                             "osType": "Windows",
                             "createOption": "Attach",
-                            "vhd": {
-                                "uri": "[parameters('idosDisk')]"
-    }
+                            "id": "[resourceId('Microsoft.Compute/disks', 'VmRestored_Osdisk')]"
                           },
                           "dataDisks": [
                             {
@@ -49,10 +73,9 @@
                               "diskSizeGB": 16,
                               "lun": 0,
                               "createOption": "Attach",
-                              "vhd": {
-                                "uri": "[parameters('iddataDisks')]"
-    }
+                              "id": "[resourceId('Microsoft.Compute/disks', 'VmRestored_Datadisk')]"
                             }
+                            
                         ]
                 },    
                 "networkProfile": {
