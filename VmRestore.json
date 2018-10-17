@@ -38,9 +38,6 @@
         "virtualMachineName": {
             "type": "string"
         },
-        "dataDiskResources": {
-            "type": "array"
-        },
         "virtualMachineSize": {
             "type": "string"
         },
@@ -158,24 +155,6 @@
             "tags": {}
         },
         {
-            "name": "[parameters('dataDiskResources')[copyIndex()].name]",
-            "type": "Microsoft.Compute/disks",
-            "apiVersion": "2018-04-01",
-            "location": "[parameters('location')]",
-            "properties": {
-                "diskSizeGB": "[parameters('dataDiskResources')[copyIndex()].diskSizeGB]",
-                "creationData": "[parameters('dataDiskResources')[copyIndex()].creationData]"
-            },
-            "sku": {
-                "name": "[parameters('dataDiskResources')[copyIndex()].sku]"
-            },
-            "copy": {
-                "name": "managedDiskResources",
-                "count": "[length(parameters('dataDiskResources'))]"
-            },
-            "tags": {}
-        },
-        {
             "name": "[parameters('virtualMachineName')]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2018-04-01",
@@ -203,7 +182,7 @@
                       "dataDisks": [
                         {
                           "name": "VmRestored_Datadisk",
-                          "diskSizeGB": 1,
+                          "diskSizeGB": 16,
                           "lun": 0,
                           "createOption": "Attach",
                           "managedDisk": {
