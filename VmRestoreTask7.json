@@ -61,7 +61,7 @@
                             "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
                         }
                     ]
-                },
+                }
 
 
             },
