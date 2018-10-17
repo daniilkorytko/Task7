@@ -115,7 +115,7 @@
                 {
                     "name": "MyVmName_DataDisk_0",
                     "diskSizeGB": 16,
-                    "sku": "StandardSSD_LRS",
+                    "sku": "Premium_LRS",
                     "creationData": {
                         "createOption": "empty"
                     }
