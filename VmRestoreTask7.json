@@ -14,9 +14,6 @@
         "virtualMachineSize": {
             "type": "string"
         },
-        "availabilitySetName": {
-            "type": "string"
-        },
         "idosDisk": {
             "type": "string"
         },
@@ -66,9 +63,7 @@
                     ]
                 },
 
-                "availabilitySet": {
-                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySetName'))]"
-                }
+
             },
             "tags": {}
         }
