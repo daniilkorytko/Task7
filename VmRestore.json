@@ -39,9 +39,9 @@
                             "caching": "ReadWrite",
                             "osType": "Windows",
                             "createOption": "Attach",
-                            "managedDisk": {
-                              "id": "[parameters('idosDisk')]"
-                            }
+                            "vhd": {
+                                "uri": "[parameters('idosDisk')]"
+    }
                           },
                           "dataDisks": [
                             {
@@ -49,9 +49,9 @@
                               "diskSizeGB": 16,
                               "lun": 0,
                               "createOption": "Attach",
-                              "managedDisk": {
-                                "id": "[parameters('iddataDisks')]"
-                              }
+                              "vhd": {
+                                "uri": "[parameters('iddataDisks')]"
+    }
                             }
                         ]
                 },    
